@@ -16,6 +16,10 @@
         
         init() {
             const fileInput = document.getElementById('file-input');
+            if (!fileInput) {
+                console.error("file-input element not found!");
+                return;
+            }
             fileInput.addEventListener('change', (e) => this.handleZipSelect(e));
         },
 
@@ -102,7 +106,12 @@
         }
     };
 
-    document.addEventListener('DOMContentLoaded', () => RenPyPlayer.init());
+    // Safely initialize once the HTML document structure is fully loaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => RenPyPlayer.init());
+    } else {
+        RenPyPlayer.init();
+    }
 
     // Register Service Worker for offline PWA support
     if ('serviceWorker' in navigator) {
